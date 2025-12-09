@@ -7,21 +7,23 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        self.inputTempField.delegate = self
+        
         FinalTemp.text = "--"
         
         if (tempConverter.scale == .celcius){
-            inputTempUnit.text = "C"
-            finalTempUnit.text = "F"
+            inputTempUnit.text = "°C"
+            finalTempUnit.text = "°F"
         }
         else {
-            inputTempUnit.text = "F"
-            finalTempUnit.text = "C"
+            inputTempUnit.text = "°F"
+            finalTempUnit.text = "°C"
         }
         
     }
@@ -47,7 +49,7 @@ class ViewController: UIViewController {
             FinalTemp.text = "N/A"
         }
         else {
-            FinalTemp.text = String(tempConverter.converetedTemp!)
+            FinalTemp.text = String(Int(tempConverter.converetedTemp!))
         }
     }
     
@@ -58,14 +60,21 @@ class ViewController: UIViewController {
     }
     
     @objc func handleSwitchScale () {
+        FinalTemp.text = "--"
+        
         if (tempConverter.scale == .fahrenheit){
-            finalTempUnit.text = "C"
-            inputTempUnit.text = "F"
+            finalTempUnit.text = "°C"
+            inputTempUnit.text = "°F"
         }
         else {
-            finalTempUnit.text = "F"
-            inputTempUnit.text = "C"
+            finalTempUnit.text = "°F"
+            inputTempUnit.text = "°C"
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        inputTempField.resignFirstResponder()
+        return true
     }
     
 }
